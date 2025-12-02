@@ -60,7 +60,7 @@ class User:
             self.password =new_field
         elif field =="5":
             try:
-                self.balance+=float(new_fioled)
+                self.balance+=float(new_field)
                 print(f"yangi balans:{self.balance}so'm")
             except:
                 print("not'g'ri summa kiritdingiz")
@@ -91,10 +91,10 @@ class Order:
 
     def kun(self):
         k,oy,y=self.date_start
-        k2,oy,y2=self.date_end
+        k2,oy2,y2=self.date_end
         return sana(k,oy,y,k2,oy2,y2)
 
-    def narxi(self,car):
+    def narxi_hisob(self,car):
         return self.kun()*float(car.narxi)
 
 class Notification:
@@ -148,7 +148,7 @@ class Park:
         count = 0
         for item in self.cars:
             count += 1
-            print(f"{count}. username: {item.model} phone:{item.brand} seria:{item.seria} yilu:{item.year} kunlik narxi:{item.narx}")
+            print(f"{count}. username: {item.model} phone:{item.brand} seria:{item.seria} yilu:{item.year} kunlik narxi:{item.narxi}")
 
     def login(self):
         name = input("username: ")
@@ -272,13 +272,14 @@ class Park:
             if item.user_id==user.username and item.is_active:
                 car=self.search(item.car_id)
                 print(f"siz olgan mashina {car.model} {item.car_id}")
-                summa=item.narx(car)
+                kunlar = order.kun()
+                summa = kunlar * float(car.narxi)
+                print(f"mashinani qaytardingiz jami to'lov {summa}so'm")
                 if user.balance>=summa:
                     user.balance-=summa
                     self.balnce+=summa
                     item.is_active=False
                     car.is_active=True
-                    print(f"mashinani qaytardingiz jami to'lov {summa}so'm")
                     print(f"qolgan balans:{user.balance}so'm")
                 else:
                     print("balansingiz yetmaydi iltimos hisobingizni to'ldiring")
@@ -297,7 +298,7 @@ park.users.append(u1)
 
 def taxi_manager(p:Park,u:User):
     while True:
-        kod = input(" 1.edit \n 2.public cars \n 3.band qilish uchun ariza\n 4.arizalarim\n 5.mashinani qaytarish \n 6.shartnomani ko'rish 7.balans \n 8. break :")
+        kod = input(" 1.edit \n 2.public cars \n 3.band qilish uchun ariza\n 4.arizalarim\n 5.mashinani qaytarish \n 6.shartnomani ko'rish \n 7.balans \n 8. break :")
         if kod=='1':
             u.edit()
         elif kod=='2':
@@ -335,7 +336,7 @@ def admin_manager(p:Park,u:User):
         elif kod=="7":
             print(f"kompanya {p.title} balansi:{p.balnce}so'm")
         elif kod =="8":
-            p.park_manager(park)
+            park_manager(park)
         else:
             print("ko'rsatilganlaridan birini tanlang")
 
