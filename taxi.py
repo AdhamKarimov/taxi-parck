@@ -272,7 +272,7 @@ class Park:
             if item.user_id==user.username and item.is_active:
                 car=self.search(item.car_id)
                 print(f"siz olgan mashina {car.model} {item.car_id}")
-                kunlar = order.kun()
+                kunlar = item.kun()
                 summa = kunlar * float(car.narxi)
                 print(f"mashinani qaytardingiz jami to'lov {summa}so'm")
                 if user.balance>=summa:
